@@ -1,13 +1,17 @@
 {
-  "name": "@straw-hat/CHANGE_ME_PACKAGE_NAME",
+  "name": "@straw-hat/react-query-fetcher",
   "version": "0.0.1",
   "description": "CHANGE_ME_DESCRIPTION",
   "repository": {
     "type": "git",
-    "url": "https://github.com/straw-hat-team/CHANGE_ME_REPO_NAME.git"
+    "url": "https://github.com/straw-hat-team/react-query-fetcher.git"
   },
   "license": "MIT",
   "keywords": [
+    "react",
+    "react-query",
+    "fetcher",
+    "http",
     "straw-hat-team"
   ],
   "publishConfig": {
@@ -26,13 +30,25 @@
     "dist",
     "README.md"
   ],
+  "peerDependencies": {
+    "@straw-hat/fetcher": "^4.3.1",
+    "react-query": "^2.26.2"
+  },
   "devDependencies": {
-    "@straw-hat/tsconfig": "^2.1.0",
-    "@straw-hat/prettier-config": "^1.1.0",
-    "@types/jest": "^26.0.14",
-    "jest": "^26.5.0",
+    "@straw-hat/fetcher": "^4.3.1",
+    "@straw-hat/prettier-config": "^1.2.0",
+    "@straw-hat/tsconfig": "^2.1.1",
+    "@testing-library/react-hooks": "^3.4.2",
+    "@types/jest": "^26.0.15",
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "jest": "^26.6.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-query": "^2.26.2",
+    "react-test-renderer": "^17.0.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^26.4.1",
-    "typescript": "^4.0.3"
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.0.5"
   }
 }
