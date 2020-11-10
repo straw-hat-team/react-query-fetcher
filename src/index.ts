@@ -20,9 +20,11 @@ export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = u
   client: Fetcher,
   args: UseFetcherQueryArgs<TResult, TError, TParams>
 ) {
+  const queryKey = args.params ? [...args.queryKey, args.params] : args.queryKey;
   const params = args.params ?? {};
+
   return useQuery<TResult, TError>({
-    queryKey: [...args.queryKey, params],
+    queryKey,
     queryFn() {
       const controller = new AbortController();
 
