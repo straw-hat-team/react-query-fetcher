@@ -1,6 +1,6 @@
 {
   "name": "@straw-hat/react-query-fetcher",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React Query and Straw Hat Fetcher Integration",
   "repository": {
     "type": "git",

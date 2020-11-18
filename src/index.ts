@@ -1,9 +1,9 @@
-import { useQuery, QueryKey, QueryConfig } from 'react-query';
+import { useQuery, useMutation, QueryKey, QueryConfig, MutationConfig } from 'react-query';
 import { Fetcher } from '@straw-hat/fetcher';
 
 export type WithOptions<T = unknown> = T & {
-  options: {
-    signal: AbortSignal;
+  options?: {
+    signal?: AbortSignal;
   };
 };
 
@@ -44,4 +44,18 @@ export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = u
     },
     config: args.config,
   });
+}
+
+export type UseFetcherMutationArgs<TResult, TError, TParams> = {
+  endpoint: Endpoint<TParams>;
+  config?: MutationConfig<TResult, TError>;
+};
+
+export function useFetcherMutation<TResult = unknown, TError = unknown, TParams = unknown>(
+  client: Fetcher,
+  args: UseFetcherMutationArgs<TResult, TError, TParams>
+) {
+  return useMutation<TResult, TError, TParams>((params: TParams) => {
+    return args.endpoint(client, params);
+  }, args.config);
 }
