@@ -46,16 +46,16 @@ export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = u
   });
 }
 
-export type UseFetcherMutationArgs<TResult, TError, TParams> = {
-  endpoint: Endpoint<TParams>;
+export type UseFetcherMutationArgs<TResult, TError, TVariables> = {
+  endpoint: Endpoint<TVariables>;
   config?: MutationConfig<TResult, TError>;
 };
 
-export function useFetcherMutation<TResult = unknown, TError = unknown, TParams = unknown>(
+export function useFetcherMutation<TResult = unknown, TError = unknown, TVariables = unknown>(
   client: Fetcher,
-  args: UseFetcherMutationArgs<TResult, TError, TParams>
+  args: UseFetcherMutationArgs<TResult, TError, TVariables>
 ) {
-  return useMutation<TResult, TError, TParams>((params: TParams) => {
+  return useMutation<TResult, TError, TVariables>((params: TVariables) => {
     return args.endpoint(client, params);
   }, args.config);
 }
