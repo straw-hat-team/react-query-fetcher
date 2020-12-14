@@ -1,4 +1,4 @@
-import { useQuery, useMutation, QueryKey, QueryConfig, MutationConfig } from 'react-query';
+import { useQuery, useMutation, QueryKey, UseQueryOptions, UseMutationOptions } from 'react-query';
 import { Fetcher } from '@straw-hat/fetcher';
 
 export type WithOptions<T = unknown> = T & {
@@ -13,7 +13,7 @@ export type UseFetcherQueryArgs<TResult, TError, TParams> = {
   queryKey: QueryKey[];
   endpoint: Endpoint<TParams>;
   params?: TParams;
-  config?: QueryConfig<TResult, TError>;
+  options?: UseQueryOptions<TResult, TError>;
 };
 
 export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = unknown>(
@@ -23,9 +23,9 @@ export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = u
   const queryKey = args.params ? [...args.queryKey, args.params] : args.queryKey;
   const params = args.params ?? {};
 
-  return useQuery<TResult, TError>({
+  return useQuery<TResult, TError>(
     queryKey,
-    queryFn() {
+    function queryFn() {
       const controller = new AbortController();
 
       const promise = args.endpoint(
@@ -42,13 +42,13 @@ export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = u
 
       return promise;
     },
-    config: args.config,
-  });
+    args.options,
+  );
 }
 
 export type UseFetcherMutationArgs<TResult, TError, TVariables> = {
   endpoint: Endpoint<TVariables>;
-  config?: MutationConfig<TResult, TError>;
+  options?: UseMutationOptions<TResult, TError, TVariables>;
 };
 
 export function useFetcherMutation<TResult = unknown, TError = unknown, TVariables = unknown>(
@@ -57,5 +57,5 @@ export function useFetcherMutation<TResult = unknown, TError = unknown, TVariabl
 ) {
   return useMutation<TResult, TError, TVariables>((params: TVariables) => {
     return args.endpoint(client, params);
-  }, args.config);
+  }, args.options);
 }

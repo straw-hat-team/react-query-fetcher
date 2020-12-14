@@ -1,15 +1,13 @@
 // @ts-nocheck
 
 import * as React from 'react';
-import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useFetcherQuery, useFetcherMutation } from '../../src/index';
 
-const queryCache = new QueryCache();
+const queryClient = new QueryClient();
 
-const wrapper = ({ children }: any) => (
-  <ReactQueryCacheProvider queryCache={queryCache}>{children}</ReactQueryCacheProvider>
-);
+const wrapper = ({ children }: any) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 
 describe('useFetcherQuery', () => {
   test('sends the params to the operation', async () => {
@@ -41,11 +39,11 @@ describe('useFetcherMutation', () => {
     const endpoint = jest.fn(async (_fetcher, _params) => ({ data: 'Hello' }));
     const {
       result: {
-        current: [mutate],
+        current: { mutateAsync },
       },
     } = renderHook(() => useFetcherMutation(client, { endpoint }), { wrapper });
 
-    await act(() => mutate({ account_id: '123' }));
+    await act(() => mutateAsync({ account_id: '123' }));
 
     expect(endpoint.mock.calls[0][0]).toEqual(client);
     expect(endpoint.mock.calls[0][1]).toHaveProperty('account_id');
