@@ -35,16 +35,24 @@ Now lets use those SDK operations combine with React Query:
 ```tsx
 import { fetcher } from '@straw-hat/fetcher';
 import { baseUrl } from '@straw-hat/fetcher/dist/middlewares/base-url';
-import { useFetcherQuery, useFetcherMutation } from '@straw-hat/react-query-fetcher';
+import { useFetcherQuery, useFetcherMutation, createQueryKey } from '@straw-hat/react-query-fetcher';
 import { fetchTodoList, createTodo } from './my-sdk';
 
 const httpClient = fetcher();
 
+type UseTodoListParams = { sortBy: string; }
+
+// In case you need to recreate the final query key use `createQueryKey`.
+function useTodoListKey(params: UseTodoListParams) {
+  return createQueryKey(['todos'], params);
+}
+
 // Create a Query hook
-function useTodoList() {
+function useTodoList(params: UseTodoListParams) {
   return useFetcherQuery(httpClient, {
     queryKey: ['todos'],
     endpoint: fetchTodoList,
+    params: params;
   });
 }
 

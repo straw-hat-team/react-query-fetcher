@@ -3,11 +3,18 @@
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useFetcherQuery, useFetcherMutation } from '../../src/index';
+import { useFetcherQuery, useFetcherMutation, createQueryKey } from '../../src/index';
 
 const queryClient = new QueryClient();
 
 const wrapper = ({ children }: any) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+
+describe('createQueryKey', () => {
+  test('creating query keys', () => {
+    expect(createQueryKey(['hello'])).toEqual(['hello']);
+    expect(createQueryKey(['hello'], { path: { id: '123' } })).toEqual(['hello', { path: { id: '123' } }]);
+  });
+});
 
 describe('useFetcherQuery', () => {
   test('sends the params to the operation', async () => {

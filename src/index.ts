@@ -16,11 +16,18 @@ export type UseFetcherQueryArgs<TResult, TError, TParams> = {
   options?: UseQueryOptions<TResult, TError>;
 };
 
+export function createQueryKey<TParams = unknown>(queryKey: QueryKey[], params?: TParams) {
+  if (params) {
+    return [...queryKey, params];
+  }
+  return queryKey;
+}
+
 export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = unknown>(
   client: Fetcher,
   args: UseFetcherQueryArgs<TResult, TError, TParams>
 ) {
-  const queryKey = args.params ? [...args.queryKey, args.params] : args.queryKey;
+  const queryKey = createQueryKey(args.queryKey, args.params);
   const params = args.params ?? {};
 
   return useQuery<TResult, TError>(
@@ -42,7 +49,7 @@ export function useFetcherQuery<TResult = unknown, TError = unknown, TParams = u
 
       return promise;
     },
-    args.options,
+    args.options
   );
 }
 
